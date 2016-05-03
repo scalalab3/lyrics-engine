@@ -1,0 +1,21 @@
+{
+  "name": "react-post",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "browserify": "~13.0.0",
+    "envify": "~1.0.0",
+    "grunt": "~1.0.1",
+    "grunt-browserify": "~5.0.0",
+    "grunt-contrib-watch": "~1.0.0",
+    "grunt-react": "~0.12.3",
+    "react": "~15.0.1",
+    "react-tools": "~0.13.3"
+  }
+}
