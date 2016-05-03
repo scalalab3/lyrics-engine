@@ -8,3 +8,5 @@ For run lyrics client execute following steps:
 1) npm install
 2) grunt
 3) start Service app
+
+UI examples you can see /lyrics-engine/examples.
