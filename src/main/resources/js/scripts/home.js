@@ -1,14 +1,14 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /** @jsx React.DOM */
 var React = require('react');
-var RecomendForm = require('./RecomendForm.jsx')
+var RecommendForm = require('./RecommendForm.jsx')
 var SongFooter = require('./SongFooter.jsx');
 var SongMenu = require('./SongMenu.jsx');
 var SongSearchColumn = require('./SongSearchColumn.jsx');
 var SongBot = require('./SongBot.jsx');
 var SongList = require('./SongList.jsx');
 
-var RecomendBox = React.createClass({displayName: "RecomendBox",
+var RecommendBox = React.createClass({displayName: "RecommendBox",
     getInitialState: function() {
         return {data: []};
     },
@@ -43,7 +43,7 @@ var RecomendBox = React.createClass({displayName: "RecomendBox",
                     React.createElement(SongSearchColumn, null), 
                     React.createElement("div", {id: "content_column_two"}, 
                         React.createElement("div", {class: "form-style-3"}, 
-                            React.createElement(RecomendForm, {onCommentSubmit: this.handleCommentSubmit})
+                            React.createElement(RecommendForm, {onCommentSubmit: this.handleCommentSubmit})
                         ), 
                         React.createElement(SongList, {data: this.state.data})
                     ), 
@@ -54,9 +54,9 @@ var RecomendBox = React.createClass({displayName: "RecomendBox",
         );
     }
 });
-module.exports = RecomendBox
-},{"./RecomendForm.jsx":2,"./SongBot.jsx":4,"./SongFooter.jsx":6,"./SongList.jsx":7,"./SongMenu.jsx":8,"./SongSearchColumn.jsx":9,"react":42}],2:[function(require,module,exports){
-var RecomendForm = React.createClass({displayName: "RecomendForm",
+module.exports = RecommendBox
+},{"./RecommendForm.jsx":2,"./SongBot.jsx":4,"./SongFooter.jsx":6,"./SongList.jsx":7,"./SongMenu.jsx":8,"./SongSearchColumn.jsx":9,"react":42}],2:[function(require,module,exports){
+var RecommendForm = React.createClass({displayName: "RecommendForm",
     getInitialState: function() {
         return {trackId: '', artistName: '', songName: '', albumName: '', text: ''};
     },
@@ -129,7 +129,7 @@ var RecomendForm = React.createClass({displayName: "RecomendForm",
         );
     }
 });
-module.exports = RecomendForm
+module.exports = RecommendForm
 },{}],3:[function(require,module,exports){
 /** @jsx React.DOM */
 var React = require('react');
@@ -276,7 +276,7 @@ var SongMenu =  React.createClass({displayName: "SongMenu",
                     React.createElement("ul", null, 
                         React.createElement("li", null, React.createElement("a", {href: "/home", class: "current"}, "Home")), 
                         React.createElement("li", null, React.createElement("a", {href: "/home"}, "Gallery")), 
-                        React.createElement("li", null, React.createElement("a", {href: "/recomend"}, "Recomendation")), 
+                        React.createElement("li", null, React.createElement("a", {href: "/recommend"}, "Recommendation")), 
                         React.createElement("li", null, React.createElement("a", {href: "#"}, "About Us")), 
                         React.createElement("li", null, React.createElement("a", {href: "#", class: "last"}, "Contact Us"))
                     )

@@ -18,8 +18,8 @@ module.exports = function(grunt) {
                 dest: 'js/scripts/home.js'
             },
             js: {
-                src: ['js/react_components/*.jsx', 'js/react_components/modules/Recomend.jsx'],
-                dest: 'js/scripts/recomend.js'
+                src: ['js/react_components/*.jsx', 'js/react_components/modules/Recommend.jsx'],
+                dest: 'js/scripts/recommend.js'
             }
         }
     });

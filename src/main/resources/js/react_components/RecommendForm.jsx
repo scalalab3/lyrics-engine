@@ -1,4 +1,4 @@
-var RecomendForm = React.createClass({
+var RecommendForm = React.createClass({
     getInitialState: function() {
         return {trackId: '', artistName: '', songName: '', albumName: '', text: ''};
     },
@@ -71,4 +71,4 @@ var RecomendForm = React.createClass({
         );
     }
 });
-module.exports = RecomendForm
+module.exports = RecommendForm

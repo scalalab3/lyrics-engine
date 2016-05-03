@@ -45,9 +45,9 @@ trait Service extends Directives {
         complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, lyricssinglePage))
       }
     } ~
-      path("recomend") {
+      path("recommend") {
         get {
-          val lyricssinglePage = Source.fromURL(getClass.getResource("/recomendation.html")).mkString
+          val lyricssinglePage = Source.fromURL(getClass.getResource("/recommendation.html")).mkString
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, lyricssinglePage))
         }
       } ~
@@ -67,7 +67,7 @@ trait Service extends Directives {
             complete(songs)
           }
         } ~
-        path("recomend" ) {
+        path("recommend" ) {
           post {
             entity(as[Song]) { order =>
               complete(songs)

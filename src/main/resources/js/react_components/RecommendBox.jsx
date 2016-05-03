@@ -1,13 +1,13 @@
 /** @jsx React.DOM */
 var React = require('react');
-var RecomendForm = require('./RecomendForm.jsx')
+var RecommendForm = require('./RecommendForm.jsx')
 var SongFooter = require('./SongFooter.jsx');
 var SongMenu = require('./SongMenu.jsx');
 var SongSearchColumn = require('./SongSearchColumn.jsx');
 var SongBot = require('./SongBot.jsx');
 var SongList = require('./SongList.jsx');
 
-var RecomendBox = React.createClass({
+var RecommendBox = React.createClass({
     getInitialState: function() {
         return {data: []};
     },
@@ -42,7 +42,7 @@ var RecomendBox = React.createClass({
                     <SongSearchColumn/>
                     <div id="content_column_two">
                         <div class="form-style-3">
-                            <RecomendForm onCommentSubmit={this.handleCommentSubmit}/>
+                            <RecommendForm onCommentSubmit={this.handleCommentSubmit}/>
                         </div>
                         <SongList data={this.state.data} />
                     </div>
@@ -53,4 +53,4 @@ var RecomendBox = React.createClass({
         );
     }
 });
-module.exports = RecomendBox
+module.exports = RecommendBox

@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 
 var React   = require('react');
-var RecomendBox = require('../RecomendBox.jsx');
+var RecommendBox = require('../RecommendBox.jsx');
 
 ReactDOM.render(
-    <RecomendBox url="/api/recomend"/>,
+    <RecommendBox url="/api/recommend"/>,
     document.getElementById('content'));

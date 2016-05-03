@@ -8,6 +8,7 @@
 dist/*
 target/
 .idea/*
+src/main/resources/node_modules/*
 lib_managed/
 src_managed/
 project/boot/
