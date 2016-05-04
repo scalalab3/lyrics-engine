@@ -15,7 +15,11 @@ class DataSetParser$Test extends FlatSpec with Matchers {
     val expected = buildExpectedData()
     val actual = DataSetParser.parse(lines)
 
-    assert(expected == actual)
+    assert(expected == actual)  
+  }
+
+  "A test" should "fail" in {
+    assert(true == false)
   }
 
   def buildExpectedData() = {
