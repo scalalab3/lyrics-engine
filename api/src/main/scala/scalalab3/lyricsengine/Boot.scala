@@ -1,22 +1,21 @@
 package scalalab3.lyricsengine
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.{Props, ActorSystem}
 import akka.io.IO
 import akka.util.Timeout
+import com.typesafe.config.ConfigFactory
 import spray.can.Http
-
+import scala.concurrent.duration._
+import akka.pattern.ask
 /**
   * @author Vlad Fefelov
   */
 object Boot extends App {
 
-  // we need an ActorSystem to host our application in
-  implicit val system = ActorSystem("on-spray-can")
+  implicit val system = ActorSystem("song-recommendation-system")
 
-  // create and start our service actor
-  val service = system.actorOf(Props[LyricsServiceActor], "http-service")
-
-  implicit val timeout = Timeout(5.seconds)
-  // start a new HTTP server on port 8080 with our service actor as the handler
-  IO(Http) ? Http.Bind(service, interface = "localhost", port = 8080)
+  val service = system.actorOf(Props[LyricsServiceActor], "lyrics-service")
+  val config = ConfigFactory.load();
+  implicit val timeout = Timeout(5 seconds)
+  IO(Http) ? Http.Bind(service, interface = config.getString("http.interface"), port = config.getInt("http.port"))
 }
