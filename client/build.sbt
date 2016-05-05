@@ -1,4 +1,4 @@
-name          := "domain"
+name          := "client"
 
 organization  := "scalalab3.lyricsengine"
 

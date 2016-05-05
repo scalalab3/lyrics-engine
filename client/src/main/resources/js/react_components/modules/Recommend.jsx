@@ -4,5 +4,5 @@ var React   = require('react');
 var RecommendBox = require('../RecommendBox.jsx');
 
 ReactDOM.render(
-    <RecommendBox url="/api/recommend"/>,
+    <RecommendBox url="http://localhost:9000/api/recommend"/>,
     document.getElementById('content'));

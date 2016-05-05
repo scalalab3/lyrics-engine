@@ -14,6 +14,8 @@ var SongBox = React.createClass({
     componentDidMount: function() {
         $.ajax({
             url: this.props.url,
+            //dataType: 'json',
+            crossDomain: true,
             dataType: 'json',
             cache: false,
             success: function(data) {
