@@ -17,3 +17,14 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+
+# OS X
+.DS_Store
+Icon?
+._*
+
+#IDEA
+*.ipr
+*.iws
+*/target/**
+.idea/
