@@ -5,7 +5,6 @@ lyrics-engine
 [![Build Status](https://travis-ci.org/scalalab3/lyrics-engine.svg?branch=master)](https://travis-ci.org/scalalab3/lyrics-engine)
 
 
-
 Development
 -----------
 
