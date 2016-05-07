@@ -1,0 +1,7 @@
+---
+nodejs_do_bower_install: false
+nodejs_update_npm: false
+nodejs_global_packages: ["grunt"]
+nodejs_user: '{{ ansible_ssh_user }}'
+nodejs_major_version: 5
+nodejs_minor_version: 'x'

@@ -21,8 +21,11 @@ project/plugins/project/
 Icon?
 ._*
 
-#IDEA
+# IDEA
 *.ipr
 *.iws
 */target/**
 .idea/
+
+# Vagrant
+.vagrant
