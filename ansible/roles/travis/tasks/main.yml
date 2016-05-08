@@ -1,0 +1,24 @@
+---
+- name: Install python-software-properties for apt-add-repository command
+  action: apt pkg=python-software-properties state=installed
+  tags: [travis]
+
+- name: Add Travis APT repository
+  action: apt_repository repo="ppa:brightbox/ruby-ng" state=present
+  tags: [travis]
+
+- name: Install Ruby
+  action: apt name={{ item }} state=present update_cache=yes
+  with_items:
+    - ruby2.1
+    - ruby2.1-dev
+    - ruby-switch
+  tags: [travis]
+
+- name: Specify Ruby version
+  shell: "ruby-switch --set ruby2.1"
+  tags: [travis]
+
+- name: Install Travis gem
+  gem: name=travis user_install=false state=present
+  tags: [travis]

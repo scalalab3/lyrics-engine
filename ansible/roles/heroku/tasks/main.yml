@@ -1,0 +1,16 @@
+---
+- name: Install python-software-properties for apt-add-repository command
+  action: apt pkg=python-software-properties state=installed
+  tags: [heroku]
+
+- name: Add Heroku release key for package verification
+  action: apt_key url=https://toolbelt.heroku.com/apt/release.key state=present
+  tags: [heroku]
+
+- name: Add Heroku APT repository
+  action: apt_repository repo="deb http://toolbelt.heroku.com/ubuntu ./" state=present
+  tags: [heroku]
+
+- name: Install Heroku toolbelt
+  action: apt name=heroku-toolbelt state=latest update_cache=yes cache_valid_time=86400
+  tags: [heroku]
