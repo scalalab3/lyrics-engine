@@ -9,3 +9,5 @@
     - docker
     - mongodb
     - npm
+    - heroku
+    - travis
