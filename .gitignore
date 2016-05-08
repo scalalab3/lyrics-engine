@@ -30,4 +30,7 @@ Icon?
 .idea/
 
 # Vagrant
-.vagrant
+.vagran
+
+# nodejs
+node_modules/

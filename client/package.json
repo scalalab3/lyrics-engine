@@ -17,5 +17,8 @@
     "grunt-react": "~0.12.3",
     "react": "~15.0.1",
     "react-tools": "~0.13.3"
+  },
+  "devDependencies": {
+    "grunt-browser-sync": "^2.2.0"
   }
 }
