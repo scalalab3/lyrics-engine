@@ -1,4 +1,4 @@
-package scalalab3.lyricsengine
+package scalalab3.lyricsengine.api
 
 import akka.actor.Actor
 import spray.http.StatusCodes

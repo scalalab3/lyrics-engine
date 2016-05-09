@@ -1,10 +1,4 @@
-organization  := "com.scalalab"
-
-version       := "0.1"
-
-scalaVersion  := "2.11.8"
-
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
+name := "lyrics-engine-api"
 
 libraryDependencies ++= {
   val akkaV = "2.3.9"

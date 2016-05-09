@@ -1,4 +1,4 @@
-package scalalab3.lyricsengine
+package scalalab3.lyricsengine.api
 
 import akka.actor._
 import akka.io.IO
