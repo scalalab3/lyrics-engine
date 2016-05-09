@@ -1,0 +1,27 @@
+---
+- name: Install dependencies  
+  apt: >
+    pkg={{ item }}
+    update-cache=yes
+  with_items:
+    - git
+    - build-essential
+    - curl
+
+- name: Add Node.js PPA
+  shell: "curl --silent --location https://deb.nodesource.com/setup_{{ nodejs_major_version }}.{{ nodejs_minor_version }} | bash -"
+  tags: [nodejs]
+
+- name: Install Node.js
+  apt: >
+    pkg=nodejs
+  tags: [nodejs]
+
+- name: Install npm global packages
+  npm: >
+    name={{ item }}
+    state=present
+    global=yes
+    registry=http://registry.npmjs.org
+  with_items: "{{ nodejs_global_packages }}"
+  tags: [nodejs, npm]
