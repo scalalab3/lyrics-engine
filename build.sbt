@@ -16,7 +16,6 @@ lazy val parser = (project in file("parser"))
   .dependsOn(domain)
 lazy val api = (project in file("api"))
   .settings(commonSettings: _*)
-  .dependsOn(parser)
 
 lazy val root = (project in file("."))
   .settings(commonSettings: _*)
