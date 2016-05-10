@@ -1,48 +1,53 @@
 package scalalab3.lyricsengine
 
-import akka.actor.Actor
+import akka.actor.{Actor, Props}
+import akka.pattern.ask
 import akka.util.Timeout
-import spray.http.HttpHeaders.RawHeader
 import spray.http.StatusCodes
 import spray.json.DefaultJsonProtocol
-import spray.routing.HttpService
+import spray.routing.{Directives, HttpService}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
-import scalalab3.model.Song
+import scala.util.{Failure, Success}
+import scalalab3.lyricsengine.domain.SongMeta
+import scalalab3.lyricsengine.scoring.ScoringActor
 
-// we don't implement our route structure directly in the service actor because
-// we want to be able to test it independently, without having to spin up an actor
 class LyricsServiceActor extends Actor with LyricsService {
 
   // the HttpService trait defines only one abstract member, which
   // connects the services environment to the enclosing actor or test
   def actorRefFactory = context
 
-  // this actor only runs our route, but you could add
-  // other things here, like request stream processing
-  // or timeout handling
+  implicit val system = context.system
+
   def receive = runRoute(route)
+
+
 }
 
+object SongMetaJsonSupport extends DefaultJsonProtocol {
+  implicit val trackFormat = jsonFormat5(SongMeta)
+}
 
 // this trait defines our service behavior independently from the service actor
-trait LyricsService extends HttpService with CORSSupport {
-  implicit val timeout = Timeout(5 seconds)
+trait LyricsService extends HttpService with CORSSupport with Directives {
+  implicit val timeout = Timeout(10 seconds)
 
-  object TrackJsonSupport extends DefaultJsonProtocol {
-    implicit val trackFormat = jsonFormat5(Song)
-}
+  val scoringActor = actorRefFactory.actorOf(Props[ScoringActor])
 
   val songs = List(
-    Song(Some(1), "artist1", "songName1", "album1", "text1"),
-    Song(Some(2), "artist1", "songName1", "album1", "text1"),
-    Song(Some(3), "artist1", "songName1", "album1", "text1"),
-    Song(Some(4), "artist1", "songName1", "album1", "text1"),
-    Song(Some(5), "artist1", "songName1", "album1", "text1"))
+    SongMeta(Some(1), Some("artist1"), Some("songName1"), Some("album1"), "text1"),
+    SongMeta(Some(2), Some("artist1"), Some("songName1"), Some("album1"), "text1"),
+    SongMeta(Some(3), Some("artist1"), Some("songName1"), Some("album1"), "text1"),
+    SongMeta(Some(4), Some("artist1"), Some("songName1"), Some("album1"), "text1"),
+    SongMeta(Some(5), Some("artist1"), Some("songName1"), Some("album1"), "text1"))
   val route = cors {
-    import TrackJsonSupport._
     import spray.httpx.SprayJsonSupport._
+
+    import SongMetaJsonSupport._
+    import scala.concurrent.ExecutionContext.Implicits.global
+    // implicit def executionContext = actorRefFactory.dispatcher
     path("match") {
       post {
         entity(as[String]) { msg =>
@@ -59,22 +64,6 @@ trait LyricsService extends HttpService with CORSSupport {
           }
         }
       } ~
-      /*  path("home") {
-          get {
-            respondWithMediaType(MediaTypes.`text/html`) {
-              val homePage = Source.fromURL(this.getClass.getResource("/index.html")).mkString
-              complete(homePage)
-            }
-          }
-        } ~
-        pathPrefix("recommend") {
-          get {
-            respondWithMediaType(MediaTypes.`text/html`) {
-              val recommendationPage = Source.fromURL(this.getClass.getResource("/recommendation.html")).mkString
-              complete(recommendationPage)
-            }
-          }
-        } ~*/
       pathPrefix("css") {
         get {
           getFromResourceDirectory("css")
@@ -88,13 +77,25 @@ trait LyricsService extends HttpService with CORSSupport {
       pathPrefix("api") {
         path("search") {
           get {
-              complete(songs)
+            complete(songs)
           }
         } ~
           path("recommend") {
             post {
-                entity(as[Song]) { order =>
+              entity(as[SongMeta]) { song: SongMeta =>
+                //TODO: Check if song has id. If not - song doesn't present in out system.
+                // So using mxm client find full song meta with id or otherwise generate unique object id.
+                // Then async save to mongoDB.
+                //TODO: FIX TRACK ID
+                val recommendedSongIds = ask(scoringActor, song.copy(trackId = Some(0))).mapTo[List[Long]]
+                onComplete(recommendedSongIds) {
+                  case Success(ids) =>  {
+                    //TODO: find songs by ids in mongoDB
+                    ids.foreach(println)
                     complete(songs)
+                  }
+                  case Failure(ex) => complete(s"An error occurred: ${ex.getMessage}")
+                }
               }
             }
           }

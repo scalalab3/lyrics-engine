@@ -1,5 +1,6 @@
 package scalalab3.lyricsengine
 
+
 /**
   * @author Vlad Fefelov
   */
