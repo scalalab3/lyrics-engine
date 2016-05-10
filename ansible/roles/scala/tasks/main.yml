@@ -1,0 +1,19 @@
+---
+- name: Scala is downloaded
+  get_url:
+    url=http://www.scala-lang.org/files/archive/scala-2.11.8.deb
+    dest=/tmp/scala-{{ scala_version }}.deb
+
+- name: Scala is present
+  apt:
+    deb=/tmp/scala-{{ scala_version }}.deb
+  tags: [scala]
+
+- name: Download SBT
+  get_url:
+    url=https://dl.bintray.com/sbt/debian/sbt-{{ sbt_version }}.deb
+    dest=/tmp/sbt-0.13.8.deb
+
+- name: SBT is present
+  apt:
+    deb=/tmp/sbt-{{ sbt_version }}.deb

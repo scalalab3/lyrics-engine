@@ -1,0 +1,60 @@
+---
+- name: Install dependencies  
+  apt: >
+    pkg={{ item }}
+    update-cache=yes
+  with_items:
+    - git
+    - build-essential
+    - curl
+
+- name: Add Node.js PPA
+  shell: "curl --silent --location https://deb.nodesource.com/setup_{{ nodejs_major_version }}.{{ nodejs_minor_version }} | bash -"
+  tags: [nodejs]
+
+- name: Install Node.js
+  apt: >
+    pkg=nodejs
+  tags: [nodejs]
+
+- name: Update npm
+  npm: >
+    name=npm
+    state=latest
+    global=yes
+    registry=https://registry.npmjs.org
+  when: nodejs_update_npm | bool
+  tags: [nodejs, npm]
+
+- name: Install npm global packages
+  npm: >
+    name={{ item }}
+    state=present
+    global=yes
+    registry=http://registry.npmjs.org
+  with_items: "{{ nodejs_global_packages }}"
+  tags: [nodejs, npm]
+
+- name: Install local npm packages
+  npm: "path={{ nodejs_app_root }}"
+  when: nodejs_app_root is defined
+  tags: [nodejs, npm]
+
+- name: Ensure bower is installed
+  npm: >
+    name=bower
+    state=present
+    global=yes
+    registry=https://registry.npmjs.org
+  when:
+    - nodejs_do_bower_install | bool
+    - nodejs_app_root is defined
+  tags: [nodejs, bower]
+
+- name: Install local bower packages
+  remote_user: "{{ nodejs_user }}"
+  command: "bower install chdir={{ nodejs_app_root }}"
+  when:
+    - nodejs_do_bower_install | bool
+    - nodejs_app_root is defined
+  tags: [nodejs, bower]
