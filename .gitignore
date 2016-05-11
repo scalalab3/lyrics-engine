@@ -7,6 +7,7 @@
 .lib/
 dist/*
 target/
+.idea/*
 lib_managed/
 src_managed/
 project/boot/
@@ -29,3 +30,7 @@ Icon?
 
 # Vagrant
 .vagrant/
+
+# nodejs
+node_modules/
+

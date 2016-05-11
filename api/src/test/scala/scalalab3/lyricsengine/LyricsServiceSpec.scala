@@ -1,11 +1,12 @@
 package scalalab3.lyricsengine
 
+import akka.actor.ActorSystem
 import org.specs2.mutable.Specification
 import spray.http._
 import spray.testkit.Specs2RouteTest
 
 class LyricsServiceSpec extends Specification with Specs2RouteTest with LyricsService {
-  def actorRefFactory = system
+  implicit def actorRefFactory: ActorSystem = system
   
   "LyricsService" should {
 
