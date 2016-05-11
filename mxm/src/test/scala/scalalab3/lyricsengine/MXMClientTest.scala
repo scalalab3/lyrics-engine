@@ -20,7 +20,7 @@ class MXMClientTest extends FlatSpec with Matchers {
         songMeta should not be (null)
         songMeta.artistName should not be (null)
         songMeta.songName should not be (null)
-        songMeta should equal (CorrectTrackId)
+        songMeta.trackId should equal (Some(CorrectTrackId))
       }
     }
   }
