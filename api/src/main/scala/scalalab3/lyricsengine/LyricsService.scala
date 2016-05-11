@@ -64,16 +64,6 @@ trait LyricsService extends HttpService with CORSSupport with Directives {
           }
         }
       } ~
-      pathPrefix("css") {
-        get {
-          getFromResourceDirectory("css")
-        }
-      } ~
-      pathPrefix("js") {
-        get {
-          getFromResourceDirectory("js")
-        }
-      } ~
       pathPrefix("api") {
         path("search") {
           get {
