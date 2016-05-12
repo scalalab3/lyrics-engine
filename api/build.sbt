@@ -1,15 +1,10 @@
-organization  := "com.scalalab"
-
-version       := "0.1"
-
-scalaVersion  := "2.11.8"
-
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
+name := "lyrics-engine-api"
 
 libraryDependencies ++= {
   val akkaV = "2.3.9"
   val sprayV = "1.3.3"
   Seq(
+    "com.typesafe"        %   "config"        % "1.2.1",
     "io.spray"            %%  "spray-can"     % sprayV,
     "io.spray"            %%  "spray-routing" % sprayV,
     "io.spray"            %%  "spray-httpx"   % sprayV,

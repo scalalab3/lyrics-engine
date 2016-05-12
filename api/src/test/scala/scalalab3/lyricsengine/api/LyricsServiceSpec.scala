@@ -1,4 +1,4 @@
-package scalalab3.lyricsengine
+package scalalab3.lyricsengine.api
 
 import org.specs2.mutable.Specification
 import spray.http._
