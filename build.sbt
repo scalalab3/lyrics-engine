@@ -1,3 +1,9 @@
+import _root_.sbt.Keys._
+
+name := "lyrics-engine"
+
+version := "1.0-SNAPSHOT"
+
 name := "lyrics-engine"
 
 lazy val commonSettings = Seq(
@@ -22,4 +28,9 @@ lazy val root = (project in file("."))
   .dependsOn(api)
   .aggregate(domain, parser, api)
   .enablePlugins(UniversalPlugin, JavaAppPackaging)
+
+lazy val domain = project in file("domain")
+lazy val parser = project in file("parser") dependsOn domain
+lazy val persistence = project in file("persistence") dependsOn domain
+lazy val api = project in file("api")
 
