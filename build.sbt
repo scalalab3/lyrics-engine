@@ -29,8 +29,8 @@ lazy val root = (project in file("."))
   .aggregate(domain, parser, api)
   .enablePlugins(UniversalPlugin, JavaAppPackaging)
 
-lazy val domain = project in file("domain")
-lazy val parser = project in file("parser") dependsOn domain
-lazy val persistence = project in file("persistence") dependsOn domain
-lazy val api = project in file("api")
+lazy val persistence = (project in file("persistence"))
+  .settings(commonSettings: _*)
+  .dependsOn(domain)
+  
 
