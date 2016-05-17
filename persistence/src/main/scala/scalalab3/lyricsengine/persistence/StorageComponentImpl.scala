@@ -1,9 +1,9 @@
-package scalalab3.lyricsengine.persistence.dao
+package scalalab3.lyricsengine.persistence
 
 import com.mongodb.casbah.Imports._
 
 import scalalab3.lyricsengine.domain._
-import scalalab3.lyricsengine.persistence.dao.mongo.MongoContext
+import scalalab3.lyricsengine.persistence.mongo.MongoContext
 
 trait StorageComponentImpl extends StorageComponent {
 

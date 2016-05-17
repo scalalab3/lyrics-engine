@@ -1,4 +1,4 @@
-package scalalab3.lyricsengine.persistence.dao
+package scalalab3.lyricsengine.persistence
 
 import scalalab3.lyricsengine.domain._
 

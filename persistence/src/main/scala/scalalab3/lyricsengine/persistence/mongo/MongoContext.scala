@@ -1,4 +1,4 @@
-package scalalab3.lyricsengine.persistence.dao.mongo
+package scalalab3.lyricsengine.persistence.mongo
 
 import com.mongodb.BasicDBObjectBuilder
 import com.mongodb.casbah.Imports._

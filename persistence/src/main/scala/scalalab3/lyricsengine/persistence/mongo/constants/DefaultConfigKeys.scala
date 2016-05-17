@@ -1,5 +1,4 @@
-package scalalab3.lyricsengine.persistence.dao.mongo.constants
-
+package scalalab3.lyricsengine.persistence.mongo.constants
 
 object DefaultConfigKeys {
   val mongo = "mongo"
