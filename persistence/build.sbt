@@ -4,7 +4,7 @@ name          := "persistence"
 
 organization  := "scalalab3.lyricsengine"
 
-version       := "0.1"
+version       := "0.1.0-SNAPSHOT"
 
 scalaVersion  := "2.11.8"
 
