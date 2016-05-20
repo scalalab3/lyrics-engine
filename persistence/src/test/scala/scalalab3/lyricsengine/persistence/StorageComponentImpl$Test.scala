@@ -1,12 +1,13 @@
-import org.specs2.specification._
-import scalalab3.lyricsengine.domain.{DataSet, Song}
-import scalalab3.lyricsengine.persistence.StorageComponentImpl
-import java.util.UUID
-import org.specs2.mutable.Specification
+package scalalab3.lyricsengine.persistence
 
-import scalalab3.lyricsengine.persistence.mongo.{MongoContext, MongoConfig}
+import java.util.UUID
+
+import org.specs2.mutable.Specification
+import org.specs2.specification._
 
 import scala.util.Try
+import scalalab3.lyricsengine.domain.{DataSet, Song}
+import scalalab3.lyricsengine.persistence.mongo.{MongoConfig, MongoContext}
 
 class StorageComponentImpl$Test extends Specification with BeforeAfterAll {
   sequential
