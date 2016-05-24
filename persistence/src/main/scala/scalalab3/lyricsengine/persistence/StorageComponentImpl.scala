@@ -16,17 +16,23 @@ trait StorageComponentImpl extends StorageComponent {
       val builder = context.songsCollection.initializeOrderedBulkOperation //will automatically split the operation into batches
       for {
         song <- songsToAdd
-      } builder.insert(songToMongoDBObj(song, version))
-
+      }  builder.insert(songToMongoDBObj(song, version))
+      val result = builder.execute()
     }
 
     def addWordsDefinition(wd: WordsDefinition, version: Option[Int] = None) = {
       val builder = context.wdCollection.initializeOrderedBulkOperation
       builder.insert(wdToMongoDbObject(wd, version))
+
+      val result = builder.execute()
     }
 
     def findSongs(version: Option[Int] = None): Seq[Song] = {
-      val query = MongoDBObject("version" -> version.get)
+
+      val query = version match {
+        case Some(v) => MongoDBObject("version" -> v)
+        case None => MongoDBObject("version" -> null)
+      }
       val result = context.songsCollection.find(query)
 
       val songsSet = for {
@@ -36,8 +42,11 @@ trait StorageComponentImpl extends StorageComponent {
       songsSet.toSeq
     }
 
-    def findWordsDefinitions(version: Option[Int] = None): Seq[Map[Int, Int]] = {
-      val query = MongoDBObject("version" -> version.get)
+    def findWordsDefinitions(version: Option[Int] = None): Seq[Map[Int, String]] = {
+      val query = version match {
+        case Some(v) => MongoDBObject("version" -> version.get)
+        case None => MongoDBObject("version" -> null)
+      }
       val result = context.wdCollection.find(query)
 
       val wdSet = for {
@@ -47,25 +56,29 @@ trait StorageComponentImpl extends StorageComponent {
       wdSet.toSeq
     }
 
+    def countSongs(): Int = context.songsCollection.find().count()
+
+    def countWD(): Int = context.wdCollection.find().count()
+
     private def songFromMongoDBObj(obj: MongoDBObject): Song = {
       val _msdTrackId = obj.getAs[String]("msdTrackId").get
       val _mxmTrackId = obj.getAs[String]("mxmTrackId").get
 
-      val _words = obj.getAs[Map[String, String]]("words").get.map { case (k, v) => (k.toInt, v.toInt) }
+      val _words = obj.getAs[Map[Int, Int]]("words").get
 
       Song(msdTrackId = _msdTrackId, mxmTrackId = _mxmTrackId, words = _words)
 
     }
 
-    private def wdFromMongoDBObj(obj: MongoDBObject): Map[Int, Int] = {
+    private def wdFromMongoDBObj(obj: MongoDBObject): Map[Int, String] = {
 
-      val version = obj.getAs[Int]("version").get
+      val version = obj.getAs[Int]("version").getOrElse(null)
 
-      val words = obj.getAs[Map[String, String]]("wordsDefinitions").get.map { case (k, v) => (k.toInt, v.toInt) }
+      val words = obj.getAs[Map[String, String]]("wordsDefinitions").get.map { case (k, v) => (k.toInt, v.toString) }
       words
     }
 
-    private def songToMongoDBObj(song: Song, version: Option[Int] = None): MongoDBObject = {
+    private def songToMongoDBObj(song: Song, version: Option[Int]): MongoDBObject = {
       val songBuilder = MongoDBObject.newBuilder
       songBuilder +=("msdTrackId" -> song.msdTrackId,
         "mxmTrackId" -> song.mxmTrackId,
@@ -75,11 +88,11 @@ trait StorageComponentImpl extends StorageComponent {
       songBuilder.result()
     }
 
-    private def wdToMongoDbObject(wd: WordsDefinition, version: Option[Int] = None): MongoDBObject = {
+    private def wdToMongoDbObject(wd: WordsDefinition, version: Option[Int]): MongoDBObject = {
       val wdBuilder = MongoDBObject.newBuilder
       wdBuilder +=(
         "wordsDefinitions" -> transformWordsDef(wd),
-        "version" -> version.getOrElse(getLastVersion)
+        "version" -> version.getOrElse(getLastVersion.getOrElse(null))
         )
       wdBuilder.result()
     }
@@ -105,8 +118,12 @@ trait StorageComponentImpl extends StorageComponent {
 
       val result = context.wdCollection.findOne(query, fields, orderBy)
 
-      result.get.getAs[Int]("version")
+      result match {
+        case Some(res) => res.getAs[Number]("version").map(_.intValue())
+        case None => None
+      }
     }
+
   }
 
 }

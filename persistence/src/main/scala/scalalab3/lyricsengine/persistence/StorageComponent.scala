@@ -17,7 +17,11 @@ trait StorageComponent {
 
     def findSongs(version: Option[Int] = None): Seq[Song]
 
-    def findWordsDefinitions(version: Option[Int] = None): Seq[Map[Int, Int]]
+    def findWordsDefinitions(version: Option[Int] = None): Seq[Map[Int, String]]
+
+    def countSongs(): Int
+
+    def countWD(): Int
   }
 
 }
