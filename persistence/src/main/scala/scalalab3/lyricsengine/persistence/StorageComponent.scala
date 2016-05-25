@@ -22,6 +22,8 @@ trait StorageComponent {
     def countSongs(): Int
 
     def countWD(): Int
+
+    def getLastVersion():Option[Int]
   }
 
 }
