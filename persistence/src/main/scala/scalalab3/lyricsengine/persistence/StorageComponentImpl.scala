@@ -9,16 +9,13 @@ trait StorageComponentImpl extends StorageComponent {
 
   override val storage: Storage
 
-
   class StorageImpl(implicit context: MongoContext) extends Storage {
 
     def addDataSet(dataSet: DataSet, version: Option[Int] = None)={
-     addWordsDefinition(dataSet.definition)
-     addSongs(dataSet.songs)
+     addWordsDefinition(dataSet.definition,version)
+      addSongs(dataSet.songs,version)
 
     }
-    // case class DataSet(definition: WordsDefinition, songs: Seq[Song])
-
     def addSongs(songsToAdd: Seq[Song], version: Option[Int] = None) = {
       val builder = context.songsCollection.initializeOrderedBulkOperation //will automatically split the operation into batches
       for {
@@ -30,12 +27,10 @@ trait StorageComponentImpl extends StorageComponent {
     def addWordsDefinition(wd: WordsDefinition, version: Option[Int] = None) = {
       val builder = context.wdCollection.initializeOrderedBulkOperation
       builder.insert(wdToMongoDbObject(wd, version))
-
       val result = builder.execute()
     }
 
     def findSongs(version: Option[Int] = None): Seq[Song] = {
-
       val query = version match {
         case Some(v) => MongoDBObject("version" -> v)
         case None => MongoDBObject("version" -> null)
