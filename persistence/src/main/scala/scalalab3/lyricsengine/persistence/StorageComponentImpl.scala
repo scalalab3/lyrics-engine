@@ -12,6 +12,13 @@ trait StorageComponentImpl extends StorageComponent {
 
   class StorageImpl(implicit context: MongoContext) extends Storage {
 
+    def addDataSet(dataSet: DataSet, version: Option[Int] = None)={
+     addWordsDefinition(dataSet.definition)
+     addSongs(dataSet.songs)
+
+    }
+    // case class DataSet(definition: WordsDefinition, songs: Seq[Song])
+
     def addSongs(songsToAdd: Seq[Song], version: Option[Int] = None) = {
       val builder = context.songsCollection.initializeOrderedBulkOperation //will automatically split the operation into batches
       for {

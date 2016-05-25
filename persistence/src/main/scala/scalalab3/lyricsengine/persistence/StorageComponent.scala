@@ -24,6 +24,8 @@ trait StorageComponent {
     def countWD(): Int
 
     def getLastVersion():Option[Int]
+
+    def addDataSet(dataSet: DataSet, version: Option[Int] = None)
   }
 
 }

@@ -17,12 +17,11 @@ class StorageComponentImpl$Test extends Specification with BeforeAfterAll {
   "Mongo Test" >> {
     if (tryMongoContext.isSuccess) {
       implicit val s = tryMongoContext.get
-
       val wd = Map(1 -> "i", 2 -> "the", 3 -> "you", 4 -> "to", 5 -> "and")
       val firstSong = Song("TRZZZYV128F92E996D", "6849828", Map(1 -> 10, 2 -> 6, 3 -> 20, 5 -> 2, 7 -> 30))
       val secondSong = Song("TRZZZYX128F92D32C6", "681124", Map(1 -> 4, 2 -> 18, 4 -> 3, 5 -> 6, 6 -> 9))
-      val seqSong = Seq(firstSong, secondSong)
-      DataSet(wd, seqSong)
+          val seqSong = Seq(firstSong, secondSong)
+      val MdataSet=DataSet(wd, seqSong)
       val mongoStorage = new StorageComponentImpl {
         override val storage: Storage = new StorageImpl
       }.storage
@@ -72,7 +71,17 @@ class StorageComponentImpl$Test extends Specification with BeforeAfterAll {
         mongoStorage.getLastVersion() must_==Some(1)
       }
 
+      "add DataSet " in {
+        mongoStorage.countWD() must_== 2
+        mongoStorage.addDataSet(MdataSet)
+        mongoStorage.countWD() must_== 3
+      }
 
+      "add DataSet with version " in {
+        mongoStorage.countWD() must_== 3
+        mongoStorage.addDataSet(MdataSet, Some(3))
+        mongoStorage.countWD() must_== 4
+      }
     } else "Skipped Test" >> skipped("Mongo context is not available in ")
   }
 
