@@ -28,15 +28,15 @@ class StorageComponentImpl$Test extends Specification with BeforeAfterAll {
       }.storage
 
 
-      "add Song " in {
-        mongoStorage.countSongs() must_== 0
-        mongoStorage.addSongs(seqSong)
-        mongoStorage.countSongs() must_== 2
-      }
-
       "add Song with version " in {
-        mongoStorage.countSongs() must_== 2
+        mongoStorage.countSongs() must_== 0
         mongoStorage.addSongs(seqSong, Some(1))
+        mongoStorage.countSongs() must_== 2
+
+      }
+      "add Song " in {
+        mongoStorage.countSongs() must_== 2
+        mongoStorage.addSongs(seqSong)
         mongoStorage.countSongs() must_== 4
       }
 
@@ -53,20 +53,25 @@ class StorageComponentImpl$Test extends Specification with BeforeAfterAll {
       }
 
       "find Songs without version" in {
-        mongoStorage.findSongs().toSeq must have size 2
+        mongoStorage.findSongs() must have size 2
       }
 
       "find Songs with version" in {
-        mongoStorage.findSongs(Some(1)).toSeq must have size 2
+        mongoStorage.findSongs(Some(1)) must have size 2
       }
 
       "find WordsDefinitions without version" in {
-        mongoStorage.findWordsDefinitions().toSeq must have size 1
+        mongoStorage.findWordsDefinitions() must have size 1
       }
 
       "find WordsDefinitions with version" in {
-        mongoStorage.findWordsDefinitions(Some(1)).toSeq must have size 1
+        mongoStorage.findWordsDefinitions(Some(1)) must have size 1
       }
+
+      "get Last Version" in {
+        mongoStorage.getLastVersion() must_==Some(1)
+      }
+
 
     } else "Skipped Test" >> skipped("Mongo context is not available in ")
   }

@@ -111,7 +111,7 @@ trait StorageComponentImpl extends StorageComponent {
       words.result()
     }
 
-    private def getLastVersion: Option[Int] = {
+      def getLastVersion: Option[Int] = {
       val query = MongoDBObject() // All documents
       val fields = MongoDBObject("version" -> 1) // Only return `version`
       val orderBy = MongoDBObject("version" -> -1) // Order by version descending
