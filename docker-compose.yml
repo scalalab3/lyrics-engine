@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  app:
+    image: lyrics-engine
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    links:
+      - db
+
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  testsBase:
+    image: lyrics-engine-tests
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+
+  unitTests:
+    extends: testsBase
+    environment:
+      - TEST_TYPE=unit
+
+  integTests:
+    extends: testsBase
+    links:
+      - db
+    environment:
+      - TEST_TYPE=integ
+      - DB_HOST=db
+      - DB_PORT=27017
+
+  tests:
+    extends: testsBase
+    links:
+      - db
+    environment:
+      - TEST_TYPE=all
+      - DB_HOST=db
+      - DB_PORT=27017
