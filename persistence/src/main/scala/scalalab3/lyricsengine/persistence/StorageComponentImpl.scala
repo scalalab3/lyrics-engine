@@ -12,11 +12,16 @@ trait StorageComponentImpl extends StorageComponent {
   class StorageImpl(implicit context: MongoContext) extends Storage {
 
     def addDataSet(dataSet: DataSet, version: Option[Int] = None)={
-     addWordsDefinition(dataSet.definition,version)
+      addWordsDefinition(dataSet.definition,version)
       addSongs(dataSet.songs,version)
-
     }
-    def addSongs(songsToAdd: Seq[Song], version: Option[Int] = None) = {
+
+    def getDataSet(version: Option[Int] = None)={
+      findWordsDefinitions(version)
+      findSongs(version)
+    }
+
+    private  def addSongs(songsToAdd: Seq[Song], version: Option[Int] = None) = {
       val builder = context.songsCollection.initializeOrderedBulkOperation //will automatically split the operation into batches
       for {
         song <- songsToAdd
@@ -24,7 +29,7 @@ trait StorageComponentImpl extends StorageComponent {
       val result = builder.execute()
     }
 
-    def addWordsDefinition(wd: WordsDefinition, version: Option[Int] = None) = {
+    private  def addWordsDefinition(wd: WordsDefinition, version: Option[Int] = None) = {
       val builder = context.wdCollection.initializeOrderedBulkOperation
       builder.insert(wdToMongoDbObject(wd, version))
       val result = builder.execute()
@@ -65,17 +70,13 @@ trait StorageComponentImpl extends StorageComponent {
     private def songFromMongoDBObj(obj: MongoDBObject): Song = {
       val _msdTrackId = obj.getAs[String]("msdTrackId").get
       val _mxmTrackId = obj.getAs[String]("mxmTrackId").get
-
       val _words = obj.getAs[Map[Int, Int]]("words").get
 
       Song(msdTrackId = _msdTrackId, mxmTrackId = _mxmTrackId, words = _words)
-
     }
 
     private def wdFromMongoDBObj(obj: MongoDBObject): Map[Int, String] = {
-
       val version = obj.getAs[Int]("version").getOrElse(null)
-
       val words = obj.getAs[Map[String, String]]("wordsDefinitions").get.map { case (k, v) => (k.toInt, v.toString) }
       words
     }
@@ -113,7 +114,7 @@ trait StorageComponentImpl extends StorageComponent {
       words.result()
     }
 
-      def getLastVersion: Option[Int] = {
+    def getLastVersion: Option[Int] = {
       val query = MongoDBObject() // All documents
       val fields = MongoDBObject("version" -> 1) // Only return `version`
       val orderBy = MongoDBObject("version" -> -1) // Order by version descending
@@ -125,7 +126,5 @@ trait StorageComponentImpl extends StorageComponent {
         case None => None
       }
     }
-
   }
-
 }
