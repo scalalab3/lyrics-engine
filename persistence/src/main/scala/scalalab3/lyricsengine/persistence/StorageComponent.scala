@@ -10,21 +10,11 @@ trait StorageComponent {
   val storage: Storage
 
   trait Storage {
-
-    def findSongs(version: Option[Int] = None): Seq[Song]
-
-    def findWordsDefinitions(version: Option[Int] = None): Seq[Map[Int, String]]
-
-    def countSongs(): Int
-
-    def countWD(): Int
-
     def addDataSet(dataSet: DataSet, version: Option[Int] = None)
 
-    def getDataSet(version: Option[Int] = None)
+    def getDataSet(version: Option[Int] = None): DataSet
 
-    def getLastVersion: Option[Int]
-
+    def getLastVersion: Int
   }
 
 }

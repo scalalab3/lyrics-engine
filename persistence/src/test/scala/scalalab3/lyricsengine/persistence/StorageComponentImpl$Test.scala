@@ -25,29 +25,23 @@ class StorageComponentImpl$Test extends Specification with BeforeAfterAll {
       }.storage
 
       "add DataSet " in {
-        mongoStorage.countWD() must_== 0
         mongoStorage.addDataSet(MdataSet)
-        mongoStorage.countWD() must_== 1
+        mongoStorage.getDataSet().songs.size must_== seqSong.size
+        mongoStorage.getDataSet().definition.size must_== wd.size
+      }
+
+      "get default LastVersion" in {
+        mongoStorage.getLastVersion must_== -1
       }
 
       "add DataSet with version " in {
-        mongoStorage.countWD() must_== 1
         mongoStorage.addDataSet(MdataSet, Some(1))
-        mongoStorage.countWD() must_== 2
-      }
-
-      "get DataSet " in {
-        mongoStorage.getDataSet()
-        mongoStorage.findSongs() must have size 2
-      }
-
-      "get DataSet with version" in {
-        mongoStorage.getDataSet(Some(1))
-        mongoStorage.findSongs() must have size 2
+        mongoStorage.getDataSet().songs.size must_== seqSong.size
+        mongoStorage.getDataSet().definition.size must_== wd.size
       }
 
       "get LastVersion" in {
-        mongoStorage.getLastVersion == Some(1)
+        mongoStorage.getLastVersion must_== 1
       }
 
     } else "Skipped Test" >> skipped("Mongo context is not available in ")
