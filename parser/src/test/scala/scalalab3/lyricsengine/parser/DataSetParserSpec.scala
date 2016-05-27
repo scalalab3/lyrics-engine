@@ -6,7 +6,7 @@ import scalalab3.lyricsengine.parser.DataSetParser
 /**
   * @author Vlad Fefelov
   */
-class DataSetParser$Test extends FlatSpec with Matchers {
+class DataSetParserSpec extends FlatSpec with Matchers {
 
   "A DataSetParser" should "parse data" in {
 
